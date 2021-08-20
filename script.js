@@ -20,6 +20,7 @@ const background = document.querySelector('.background');
 
 let isJumping = false;
 let position = 0;
+let gameOver = false;
 
 function handleKeyDown(event){
     if (event.keyCode === 32){
@@ -55,6 +56,33 @@ function jump(){
 }, 20);
 }
 
+var contador = { "moedas":0 }
+
+let pontoAtual;
+
+function atualizaPontuacao(valor){
+    var pontuacao = document.getElementById('pontuacao-atual');
+
+    contador.moedas += valor;
+
+    pontuacao.innerText = contador.moedas;
+}
+
+function aumentaPonto(){
+    let randomTime = Math.random() * 500;
+
+    
+    if (gameOver === false){
+      atualizaPontuacao(1);
+      pontoAtual += 1;
+    }else
+    {
+        atualizaPontuacao(0);
+    }
+
+    setTimeout(aumentaPonto, randomTime);
+}
+
 function createCactus(){
     const cactus = document.createElement('div');
     let cactusPosition = 1000;
@@ -83,5 +111,6 @@ function createCactus(){
     setTimeout(createCactus, randomTime);
 }
 
+aumentaPonto();
 createCactus();
 document.addEventListener('keydown', handleKeyDown);
